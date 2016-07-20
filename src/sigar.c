@@ -380,8 +380,14 @@ SIGAR_DECLARE(int) sigar_sys_info_get(sigar_t *sigar,
 int sigar_sys_info_get_uname(sigar_sys_info_t *sysinfo)
 {
     struct utsname name;
+    static char *p = NULL;
 
     uname(&name);
+    p = sigar_get_machine_id();
+
+    strncat(sysinfo->machine_id, name.nodename, strlen(name.nodename));
+    strncat(sysinfo->machine_id, ":", sizeof(char));
+    strncat(sysinfo->machine_id, p, sizeof(sysinfo->machine_id) - strlen(p));
 
     SIGAR_SSTRCPY(sysinfo->version, name.release);
     SIGAR_SSTRCPY(sysinfo->vendor_name, name.sysname);

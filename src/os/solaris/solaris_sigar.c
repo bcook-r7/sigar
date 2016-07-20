@@ -1332,6 +1332,11 @@ static int sigar_proc_path_exe_get(sigar_t *sigar, sigar_pid_t pid,
     return SIGAR_OK;
 }
 
+char *sigar_get_machine_id(void) {
+  static char mach_id[256] = "NOTIMPLEMENTED";
+  return mach_id;
+}
+
 static int proc_module_get_exe(void *data, char *name, int len)
 {
     sigar_proc_exe_t *procexe = (sigar_proc_exe_t *)data;

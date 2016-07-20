@@ -1414,6 +1414,11 @@ sigar_int64_t sigar_time_now_millis(void)
     return sigar_FileTimeToTime(&time) / 1000;
 }
 
+char *sigar_get_machine_id(void) {
+  static char mach_id[256] = "NOTIMPLEMENTED";
+  return mach_id;
+}
+
 SIGAR_DECLARE(int) sigar_proc_time_get(sigar_t *sigar, sigar_pid_t pid,
                                        sigar_proc_time_t *proctime)
 {

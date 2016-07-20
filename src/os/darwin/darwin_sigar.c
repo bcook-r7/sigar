@@ -212,6 +212,11 @@ static int kread(sigar_t *sigar, void *data, int size, long offset)
 }
 #endif
 
+char *sigar_get_machine_id(void) {
+  static char mach_id[256] = "NOTIMPLEMENTED";
+  return mach_id;
+}
+
 int sigar_os_open(sigar_t **sigar)
 {
     int mib[2];

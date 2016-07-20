@@ -625,6 +625,11 @@ int sigar_file_system_list_get(sigar_t *sigar,
     return SIGAR_OK;
 }
 
+char *sigar_get_machine_id(void) {
+  static char mach_id[256] = "NOTIMPLEMENTED";
+  return mach_id;
+}
+
 static int create_fsdev_cache(sigar_t *sigar)
 {
     sigar_file_system_list_t fslist;

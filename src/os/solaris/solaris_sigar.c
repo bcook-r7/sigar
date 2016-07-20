@@ -263,6 +263,11 @@ static int zone_mem_get(sigar_t *sigar, sigar_mem_t *mem)
     return SIGAR_OK;
 }
 
+char * sigar_get_machine_id(void) {
+  char machine_id[256] = "NOTIMPLEMENTED";
+  return machine_id;
+}
+
 int sigar_mem_get(sigar_t *sigar, sigar_mem_t *mem)
 {
     kstat_ctl_t *kc = sigar->kc;

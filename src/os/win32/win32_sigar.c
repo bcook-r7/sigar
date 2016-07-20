@@ -266,6 +266,12 @@ static PERF_OBJECT_TYPE *get_perf_object_inst(sigar_t *sigar,
 #define get_perf_object(sigar, counter_key, err) \
     get_perf_object_inst(sigar, counter_key, 1, err)
 
+
+char * sigar_get_machine_id(void) {
+  char machine_id[256] = "NOTIMPLEMENTED";
+  return machine_id;
+}
+
 static int get_mem_counters(sigar_t *sigar, sigar_swap_t *swap, sigar_mem_t *mem)
 {
     int status;

@@ -279,6 +279,12 @@ static int sigar_pstat_getproc(sigar_t *sigar, sigar_pid_t pid)
     return SIGAR_OK;
 }
 
+
+char * sigar_get_machine_id(void) {
+  char machine_id[256] = "NOTIMPLEMENTED";
+  return machine_id;
+}
+
 int sigar_proc_mem_get(sigar_t *sigar, sigar_pid_t pid,
                        sigar_proc_mem_t *procmem)
 {

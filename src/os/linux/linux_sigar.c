@@ -246,6 +246,63 @@ char *sigar_os_error_string(sigar_t *sigar, int err)
     return NULL;
 }
 
+char * sigar_get_machine_id(void) {
+  struct utsname utsbuf;
+  struct dirent *data;
+  static char machine_id[256] = "";
+  static char tbuf[64] = "";
+  FILE *fp;
+
+  /* only generate once */
+
+  if (strlen(machine_id)) {
+    return machine_id;
+  }
+
+  /* get host name */
+
+  if (uname(&utsbuf) == 0) {
+    strncat(machine_id, utsbuf.nodename, sizeof(machine_id) - strlen(utsbuf.nodename) - 1);
+  }
+
+  /* TODO: query dbus for machine id */
+
+  fp = fopen("/etc/machine-id", "r");
+
+  if (fp) {
+    fgets(tbuf, sizeof(tbuf) - 1, (FILE *)fp);
+    tbuf[strlen(tbuf)-1] = '\0';
+    strncat(machine_id, ":", sizeof(char));
+    strncat(machine_id, tbuf, sizeof(machine_id) - strlen(tbuf));
+    return machine_id;
+  }
+
+  /*
+   * fall back on disk uuid
+   * we'd prefer to use  the 36 character UUID typical
+   * of hard disks, but the 22 character one used by
+   * iso9660 devices will do for now.  most systems
+   * will use the dbus machine id as is.
+   */
+
+  else {
+    DIR *ctx = opendir("/dev/disk/by-uuid");
+    if (ctx) {
+      while ((data = readdir(ctx)) != NULL) {
+        const char *fs_uuid = data->d_name;
+        if (strlen(data->d_name) == 36 || strlen(data->d_name) == 22) {
+          strncat(machine_id, ":", sizeof(char));
+          strncat(machine_id, fs_uuid, sizeof(machine_id) - strlen(fs_uuid) - 1);
+          /* the first one encountered will suffice */
+          break;
+        }
+      }
+    }
+    closedir(ctx);
+  }
+  return machine_id;
+}
+
 static int sigar_cpu_total_count(sigar_t *sigar)
 {
     sigar->ncpu = (int)sysconf(_SC_NPROCESSORS_CONF);

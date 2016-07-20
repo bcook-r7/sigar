@@ -292,6 +292,11 @@ int sigar_os_close(sigar_t *sigar)
     return SIGAR_OK;
 }
 
+char *sigar_get_machine_id(void) {
+  char machine_id[256] = "NOTIMPLEMENTED";
+  return machine_id;
+}
+
 char *sigar_os_error_string(sigar_t *sigar, int err)
 {
     switch (err) {

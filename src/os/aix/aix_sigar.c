@@ -245,6 +245,11 @@ char *sigar_os_error_string(sigar_t *sigar, int err)
     }
 }
 
+char * sigar_get_machine_id(void) {
+  char machine_id[256] = "NOTIMPLEMENTED";
+  return machine_id;
+}
+
 #define PAGESHIFT(v) \
     ((v) << sigar->pagesize)
 

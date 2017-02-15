@@ -75,9 +75,9 @@
 
 #if TARGET_OS_IPHONE
 #include "if_types.h"
-#include "route.h"
-#include "if_ether.h"
 #include "tcp_fsm.h"
+#define RTM_NEWADDR	0xc	/* address being added to iface */
+#define RTM_IFINFO	0xe	/* iface going up/down etc. */
 #else
 #include <net/if_types.h>
 #include <net/route.h>
@@ -2279,7 +2279,7 @@ sigar_net_listeners_get(sigar_net_connection_walker_t *walker)
 	}
 
 #if defined(DARWIN_HAS_LIBPROC_H)
-  int i;
+	int i;
 	sigar_net_connection_list_t *list = walker->data;
 
 	sigar_pid_t pid;
@@ -2421,6 +2421,7 @@ int sigar_nfs_server_v3_get(sigar_t *sigar,
 #endif
 }
 
+#if !TARGET_OS_IPHONE
 static char *get_hw_type(int type)
 {
     switch (type) {
@@ -2444,10 +2445,14 @@ static char *get_hw_type(int type)
         return "unknown";
     }
 }
+#endif
 
 int sigar_arp_list_get(sigar_t *sigar,
                        sigar_arp_list_t *arplist)
 {
+#if TARGET_OS_IPHONE
+    return SIGAR_ENOTIMPL;
+#else
     size_t needed;
     char *lim, *buf, *next;
     struct rt_msghdr *rtm;
@@ -2494,6 +2499,7 @@ int sigar_arp_list_get(sigar_t *sigar,
     free(buf);
 
     return SIGAR_OK;
+#endif
 }
 
 #if defined(DARWIN_HAS_LIBPROC_H)

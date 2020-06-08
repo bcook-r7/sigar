@@ -106,11 +106,11 @@ int sigar_proc_file2str(char *buffer, int buflen,
                         int fname_len);
 
 #define SIGAR_PROC_FILE2STR(buffer, pid, fname) \
-    sigar_proc_file2str(buffer, sizeof(buffer), \
+    sigar_proc_file2str(buffer, sizeof(buffer)-1, \
                         pid, fname, SSTRLEN(fname))
 
 #define SIGAR_PROC_FILENAME(buffer, pid, fname) \
-    sigar_proc_filename(buffer, sizeof(buffer), \
+    sigar_proc_filename(buffer, sizeof(buffer)-1, \
                         pid, fname, SSTRLEN(fname))
 
 #define SIGAR_SKIP_SPACE(ptr) \
